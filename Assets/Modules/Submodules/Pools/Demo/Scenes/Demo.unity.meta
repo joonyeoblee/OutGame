@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 008307f995ac83445abcc6b9bd7e1f4c
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 231438
+  packageName: Pools
+  packageVersion: 1.1.2
+  assetPath: Assets/Modules/Submodules/Pools/Demo/Scenes/Demo.unity
+  uploadId: 543069
