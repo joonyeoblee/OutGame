@@ -2228,7 +2228,7 @@ MonoBehaviour:
   - {fileID: 883645957}
   - {fileID: 702806470}
   - {fileID: 1048761345}
-  _achievePopup: {fileID: 0}
+  _achievePopup: {fileID: 1825838005}
   _displayTime: 2
 --- !u!4 &927465903 stripped
 Transform:

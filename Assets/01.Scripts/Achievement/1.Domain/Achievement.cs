@@ -73,6 +73,7 @@ public class Achievement
             _rewardClaimed = saveData.RewardClaimed;
         }
     }
+    
 
     public void Increase(int value)
     {
@@ -97,4 +98,14 @@ public class Achievement
         // 초기 값이 false니까 
         return _rewardClaimed;
     }
+}
+[Serializable]
+public struct AchievementSaveData
+{
+    // DTO는 ReadOnly라 저장이 안됨
+    // public List<AchievementSaveData> DataList;
+    public string ID;
+    public int CurrentValue;
+    public bool RewardClaimed;
+
 }

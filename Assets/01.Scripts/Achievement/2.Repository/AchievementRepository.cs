@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class AchievementRepository : MonoBehaviour
 {
     private static readonly string SAVE_KEY = "ACHIEVEMENT_DTO_";
@@ -32,16 +33,7 @@ public class AchievementRepository : MonoBehaviour
     }
 }
 
-[Serializable]
-public struct AchievementSaveData
-{
-    // DTO는 ReadOnly라 저장이 안됨
-    // public List<AchievementSaveData> DataList;
-    public string ID;
-    public int CurrentValue;
-    public bool RewardClaimed;
 
-}
 
 [Serializable]
 public class AchievementSaveDataList

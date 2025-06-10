@@ -10,6 +10,9 @@ public class UI_Achievement : MonoBehaviour
     [SerializeField]
     private float _displayTime = 2f;
     private float _currentTime;
+
+    private readonly HashSet<string> _alreadyClaimableIds = new HashSet<string>();
+
     private void Start()
     {
         Refresh();
@@ -18,13 +21,26 @@ public class UI_Achievement : MonoBehaviour
     }
     private void Refresh()
     {
-        List<AchievementDTO> achivements = AchievementManager.Instance.Get();
+        List<AchievementDTO> achievements = AchievementManager.Instance.Get();
+        bool hasNewClaimable = false;
 
-        for (int i = 0; i < achivements.Count; i++)
+        for (int i = 0; i < achievements.Count; i++)
         {
-            _slots[i].Refresh(achivements[i]);
+            _slots[i].Refresh(achievements[i]);
+
+            if (achievements[i].CanClaimReward() && !_alreadyClaimableIds.Contains(achievements[i].ID))
+            {
+                _alreadyClaimableIds.Add(achievements[i].ID);
+                hasNewClaimable = true;
+            }
+        }
+
+        if (hasNewClaimable)
+        {
+            DisplayAchievementPopup();
         }
     }
+
 
     private void Update()
     {
