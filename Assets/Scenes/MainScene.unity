@@ -1412,7 +1412,7 @@ GameObject:
   - component: {fileID: 723802800}
   - component: {fileID: 723802799}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: AchievementDescriptionTextUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1700,7 +1700,7 @@ GameObject:
   - component: {fileID: 815528863}
   - component: {fileID: 815528862}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: AchievementNameTextUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2220,6 +2220,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5506b805acfd14781830f2fdaebeb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _slotPrefab: {fileID: 1827095965490435534, guid: c2a4fb7f5a3fa6947a4bf958ff5698e5,
+    type: 3}
+  _slotParent: {fileID: 1903619792}
   _slots:
   - {fileID: 1197637399}
   - {fileID: 1354222429}
@@ -4094,6 +4097,7 @@ GameObject:
   - component: {fileID: 1825838006}
   - component: {fileID: 1825838008}
   - component: {fileID: 1825838007}
+  - component: {fileID: 1825838009}
   m_Layer: 5
   m_Name: Reward
   m_TagString: Untagged
@@ -4160,6 +4164,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1825838005}
   m_CullTransparentMesh: 1
+--- !u!114 &1825838009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825838005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 915ea01b0d4e7b04eafc332228707408, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AchievementNameTextUI: {fileID: 815528862}
+  AchievementDescriptionTextUI: {fileID: 723802799}
 --- !u!1 &1852458476
 GameObject:
   m_ObjectHideFlags: 0
