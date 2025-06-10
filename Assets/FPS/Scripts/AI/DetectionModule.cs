@@ -137,5 +137,14 @@ namespace Unity.FPS.AI
                 Animator.SetTrigger(k_AnimAttackParameter);
             }
         }
+
+        public virtual void ResetDetectionState()
+        {
+            KnownDetectedTarget = null;
+            IsTargetInAttackRange = false;
+            IsSeeingTarget = false;
+            HadKnownTarget = false;
+            TimeLastSeenTarget = Mathf.NegativeInfinity;
+        }
     }
 }

@@ -2,6 +2,7 @@
 using Unity.FPS.Gameplay;
 using UnityEngine;
 using UnityEngine.UI;
+#pragma warning disable CS0618 // 형식 또는 멤버는 사용되지 않습니다.
 
 namespace Unity.FPS.UI
 {

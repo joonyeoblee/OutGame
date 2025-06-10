@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using Unity.FPS.Game;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
+// ReSharper disable All
+#pragma warning disable CS0618 // 형식 또는 멤버는 사용되지 않습니다.
 
 namespace Unity.FPS.EditorExt
 {
@@ -22,7 +24,7 @@ namespace Unity.FPS.EditorExt
         public void Replace(PrefabReplacer replacer)
         {
             List<GameObject> allPrefabObjectsInScene = new List<GameObject>();
-            foreach (Transform t in GameObject.FindObjectsOfType<Transform>())
+            foreach(Transform t in FindObjectsOfType<Transform>())
             {
                 if (PrefabUtility.IsAnyPrefabInstanceRoot(t.gameObject))
                 {

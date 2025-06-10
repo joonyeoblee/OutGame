@@ -1,4 +1,5 @@
-﻿using Unity.FPS.Game;
+﻿using Redcode.Pools;
+using Unity.FPS.Game;
 using UnityEngine;
 
 namespace Unity.FPS.AI
@@ -109,24 +110,40 @@ namespace Unity.FPS.AI
                     m_EnemyController.SetNavDestination(m_EnemyController.GetDestinationOnPath());
                     break;
                 case AIState.Follow:
-                    m_EnemyController.SetNavDestination(m_EnemyController.KnownDetectedTarget.transform.position);
-                    m_EnemyController.OrientTowards(m_EnemyController.KnownDetectedTarget.transform.position);
-                    m_EnemyController.OrientWeaponsTowards(m_EnemyController.KnownDetectedTarget.transform.position);
-                    break;
-                case AIState.Attack:
-                    if (Vector3.Distance(m_EnemyController.KnownDetectedTarget.transform.position,
-                            m_EnemyController.DetectionModule.DetectionSourcePoint.position)
-                        >= (AttackStopDistanceRatio * m_EnemyController.DetectionModule.AttackRange))
+                    if (m_EnemyController.KnownDetectedTarget != null)
                     {
                         m_EnemyController.SetNavDestination(m_EnemyController.KnownDetectedTarget.transform.position);
+                        m_EnemyController.OrientTowards(m_EnemyController.KnownDetectedTarget.transform.position);
+                        m_EnemyController.OrientWeaponsTowards(m_EnemyController.KnownDetectedTarget.transform.position);
                     }
                     else
                     {
-                        m_EnemyController.SetNavDestination(transform.position);
+                        AiState = AIState.Patrol;
                     }
+                    break;
+                case AIState.Attack:
+                    if (m_EnemyController.KnownDetectedTarget != null && 
+                        m_EnemyController.DetectionModule != null && 
+                        m_EnemyController.DetectionModule.DetectionSourcePoint != null)
+                    {
+                        if (Vector3.Distance(m_EnemyController.KnownDetectedTarget.transform.position,
+                                m_EnemyController.DetectionModule.DetectionSourcePoint.position)
+                            >= (AttackStopDistanceRatio * m_EnemyController.DetectionModule.AttackRange))
+                        {
+                            m_EnemyController.SetNavDestination(m_EnemyController.KnownDetectedTarget.transform.position);
+                        }
+                        else
+                        {
+                            m_EnemyController.SetNavDestination(transform.position);
+                        }
 
-                    m_EnemyController.OrientTowards(m_EnemyController.KnownDetectedTarget.transform.position);
-                    m_EnemyController.TryAtack(m_EnemyController.KnownDetectedTarget.transform.position);
+                        m_EnemyController.OrientTowards(m_EnemyController.KnownDetectedTarget.transform.position);
+                        m_EnemyController.TryAtack(m_EnemyController.KnownDetectedTarget.transform.position);
+                    }
+                    else
+                    {
+                        AiState = AIState.Patrol;
+                    }
                     break;
             }
         }

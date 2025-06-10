@@ -27,7 +27,7 @@ namespace Unity.FPS.Game
         {
             CurrentHealth = MaxHealth;
         }
-
+        
         public void Heal(float healAmount)
         {
             float healthBefore = CurrentHealth;

@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Redcode.Pools;
 using Unity.FPS.Game;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 namespace Unity.FPS.AI
 {
     [RequireComponent(typeof(Health), typeof(Actor), typeof(NavMeshAgent))]
-    public class EnemyController : MonoBehaviour
+    public class EnemyController : MonoBehaviour, IPoolObject
     {
         [System.Serializable]
         public struct RendererIndexData
@@ -104,6 +107,7 @@ namespace Unity.FPS.AI
         public NavMeshAgent NavMeshAgent { get; private set; }
         public DetectionModule DetectionModule { get; private set; }
 
+        
         int m_PathDestinationNodeIndex;
         EnemyManager m_EnemyManager;
         ActorsManager m_ActorsManager;
@@ -120,6 +124,14 @@ namespace Unity.FPS.AI
 
         void Start()
         {
+            Init();
+            // Subscribe to damage & death actions
+            m_Health.OnDie += OnDie;
+            m_Health.OnDamaged += OnDamaged;
+        }
+        private void Init()
+        {
+
             m_EnemyManager = FindObjectOfType<EnemyManager>();
             DebugUtility.HandleErrorIfNullFindObject<EnemyManager, EnemyController>(m_EnemyManager, this);
 
@@ -140,9 +152,7 @@ namespace Unity.FPS.AI
             m_GameFlowManager = FindObjectOfType<GameFlowManager>();
             DebugUtility.HandleErrorIfNullFindObject<GameFlowManager, EnemyController>(m_GameFlowManager, this);
 
-            // Subscribe to damage & death actions
-            m_Health.OnDie += OnDie;
-            m_Health.OnDamaged += OnDamaged;
+    
 
             // Find and initialize all weapons
             FindAndInitializeAllWeapons();
@@ -373,7 +383,12 @@ namespace Unity.FPS.AI
             }
 
             // this will call the OnDestroy function
-            Destroy(gameObject, DeathDuration);
+            // Destroy(gameObject, DeathDuration);
+            
+            PoolManager.Instance.TakeToPool<EnemyController>(GetComponent<EnemyController>());
+            CurrencyManager.Instance.Add(ECurrencyType.Gold, 100);
+            
+            gameObject.SetActive(false);
         }
 
         void OnDrawGizmosSelected()
@@ -486,5 +501,64 @@ namespace Unity.FPS.AI
                 m_LastTimeWeaponSwapped = Mathf.NegativeInfinity;
             }
         }
+        void Cleanup()
+        {
+            if (DetectionModule != null)
+            {
+                DetectionModule.onDetectedTarget -= OnDetectedTarget;
+                DetectionModule.onLostTarget -= OnLostTarget;
+                onAttack -= DetectionModule.OnAttack;
+            }
+
+            if (m_Health != null)
+            {
+                m_Health.OnDie -= OnDie;
+                m_Health.OnDamaged -= OnDamaged;
+            }
+
+            m_BodyRenderers.Clear();
+            m_EyeRendererData = new RendererIndexData();
+            m_CurrentWeapon = null;
+            m_Weapons = null;
+            m_CurrentWeaponIndex = 0;
+            m_WasDamagedThisFrame = false;
+        }
+
+        public void OnCreatedInPool()
+        {
+            
+        }
+        public void OnGettingFromPool()
+        {
+            Cleanup();
+            transform.position = Vector3.zero;
+            
+            // 체력 초기화
+            if (m_Health != null)
+            {
+                m_Health.MaxHealth = 100f; // 기본 체력값으로 초기화
+                m_Health.CurrentHealth = m_Health.MaxHealth;
+                
+                // Health 이벤트 다시 구독
+                m_Health.OnDie += OnDie;
+                m_Health.OnDamaged += OnDamaged;
+                
+                // Health 컴포넌트의 m_IsDead 플래그 초기화
+                var healthField = m_Health.GetType().GetField("m_IsDead", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                if (healthField != null)
+                {
+                    healthField.SetValue(m_Health, false);
+                }
+            }
+            
+            // DetectionModule 상태 초기화
+            if (DetectionModule != null)
+            {
+                DetectionModule.ResetDetectionState();
+            }
+            
+            Init();
+        }
+
     }
 }

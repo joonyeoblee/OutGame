@@ -4,6 +4,7 @@ using Unity.FPS.Game;
 using Unity.FPS.Gameplay;
 using UnityEditor;
 using UnityEngine;
+#pragma warning disable CS0618 // 형식 또는 멤버는 사용되지 않습니다.
 
 namespace Unity.FPS.EditorExt
 {
@@ -43,7 +44,7 @@ namespace Unity.FPS.EditorExt
         public static void ShowWindow()
         {
             //Show existing window instance. If one doesn't exist, make one.
-            EditorWindow.GetWindow(typeof(MiniProfiler));
+            GetWindow(typeof(MiniProfiler));
         }
 
         void OnEnable()
@@ -153,7 +154,7 @@ namespace Unity.FPS.EditorExt
 
             if (m_MustRepaint)
             {
-                EditorWindow.GetWindow<SceneView>().Repaint();
+                GetWindow<SceneView>().Repaint();
                 m_MustRepaint = false;
             }
 
@@ -206,15 +207,16 @@ namespace Unity.FPS.EditorExt
                 MessageType.None);
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         void AnalyzeLevel()
         {
             ClearAnalysis();
             EditorStyles.textArea.wordWrap = true;
-            MeshCombiner mainMeshCombiner = GameObject.FindObjectOfType<MeshCombiner>();
+            MeshCombiner mainMeshCombiner = FindObjectOfType<MeshCombiner>();
 
             // Analyze
-            MeshFilter[] meshFilters = GameObject.FindObjectsOfType<MeshFilter>();
-            SkinnedMeshRenderer[] skinnedMeshes = GameObject.FindObjectsOfType<SkinnedMeshRenderer>();
+            MeshFilter[] meshFilters = FindObjectsOfType<MeshFilter>();
+            SkinnedMeshRenderer[] skinnedMeshes = FindObjectsOfType<SkinnedMeshRenderer>();
             int skinnedMeshesCount = skinnedMeshes.Length;
             int meshCount = meshFilters.Length;
             int nonCombinedMeshCount = 0;
@@ -257,7 +259,7 @@ namespace Unity.FPS.EditorExt
             }
 
             int rigidbodiesCount = 0;
-            foreach (var r in GameObject.FindObjectsOfType<Rigidbody>())
+            foreach(Rigidbody r in FindObjectsOfType<Rigidbody>())
             {
                 if (!r.isKinematic)
                 {
@@ -265,8 +267,8 @@ namespace Unity.FPS.EditorExt
                 }
             }
 
-            int lightsCount = GameObject.FindObjectsOfType<Light>().Length;
-            int enemyCount = GameObject.FindObjectsOfType<EnemyController>().Length;
+            int lightsCount = FindObjectsOfType<Light>().Length;
+            int enemyCount = FindObjectsOfType<EnemyController>().Length;
 
             // Level analysis 
             m_LevelAnalysisString += "- Meshes count: " + meshCount;
@@ -296,7 +298,7 @@ namespace Unity.FPS.EditorExt
             s_CellDatas.Clear();
             List<BoundsAndCount> meshBoundsAndCount = new List<BoundsAndCount>();
             Bounds levelBounds = new Bounds();
-            Renderer[] allRenderers = GameObject.FindObjectsOfType<Renderer>();
+            Renderer[] allRenderers = FindObjectsOfType<Renderer>();
 
             // Get level bounds and list of bounds & polycount
             for (int i = 0; i < allRenderers.Length; i++)
