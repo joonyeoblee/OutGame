@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Redcode.Pools;
 using Unity.FPS.Game;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace Unity.FPS.AI
     [RequireComponent(typeof(Health), typeof(Actor), typeof(NavMeshAgent))]
     public class EnemyController : MonoBehaviour, IPoolObject
     {
-        [System.Serializable]
+        [Serializable]
         public struct RendererIndexData
         {
             public Renderer Renderer;
@@ -24,7 +25,10 @@ namespace Unity.FPS.AI
                 MaterialIndex = index;
             }
         }
-
+        [Header("전리품")]
+        public ECurrencyType CurrencyType;
+        public int GoldValue;
+        
         [Header("Parameters")]
         [Tooltip("The Y height at which the enemy will be automatically killed (if it falls off of the level)")]
         public float SelfDestructYHeight = -20f;
@@ -384,9 +388,10 @@ namespace Unity.FPS.AI
 
             // this will call the OnDestroy function
             // Destroy(gameObject, DeathDuration);
-            
-            PoolManager.Instance.TakeToPool<EnemyController>(GetComponent<EnemyController>());
-            CurrencyManager.Instance.Add(ECurrencyType.Gold, 100);
+
+            // PoolManager.Instance.TakeToPool<EnemyController>(GetComponent<EnemyController>());
+            // CurrencyManager.Instance.Add(ECurrencyType.Gold, 100);
+            // AchievementManager.Instance.Increase(EAchievementCondition.DroneKillCount, 1);
             
             gameObject.SetActive(false);
         }
@@ -544,7 +549,7 @@ namespace Unity.FPS.AI
                 m_Health.OnDamaged += OnDamaged;
                 
                 // Health 컴포넌트의 m_IsDead 플래그 초기화
-                var healthField = m_Health.GetType().GetField("m_IsDead", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                FieldInfo healthField = m_Health.GetType().GetField("m_IsDead", BindingFlags.NonPublic | BindingFlags.Instance);
                 if (healthField != null)
                 {
                     healthField.SetValue(m_Health, false);

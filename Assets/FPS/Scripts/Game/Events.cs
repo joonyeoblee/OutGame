@@ -16,6 +16,8 @@ namespace Unity.FPS.Game
         public static AmmoPickupEvent AmmoPickupEvent = new AmmoPickupEvent();
         public static DamageEvent DamageEvent = new DamageEvent();
         public static DisplayMessageEvent DisplayMessageEvent = new DisplayMessageEvent();
+        public static CurrencyEvent CurrencyEvent = new CurrencyEvent();
+        public static AchievementEvent AchievementEvent = new AchievementEvent();
     }
 
     public class ObjectiveUpdateEvent : GameEvent
@@ -63,4 +65,16 @@ namespace Unity.FPS.Game
         public string Message;
         public float DelayBeforeDisplay;
     }
+
+    public class CurrencyEvent : GameEvent
+    {
+        public ECurrencyType Currency;
+        public int Amount;
+    }
+    public class AchievementEvent : GameEvent
+    {
+        public AchievementDTO AchievementDTO;
+    }
+
+    
 }

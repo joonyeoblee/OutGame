@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.FPS.Game;
 using UnityEngine;
 
 // 아키텍처: 설계 그 잡채(설계마다 철학이 있다.)
@@ -68,7 +69,10 @@ public class CurrencyManager : MonoBehaviour
 
 
     }
-
+    private void Start()
+    {
+        EventManager.AddListener<CurrencyEvent>(OnEnemyKilled);
+    }
     private List<CurrencyDTO> ToDtoList()
     {
         return _currencies.ToList().ConvertAll(currency => new CurrencyDTO(currency.Value));
@@ -84,9 +88,8 @@ public class CurrencyManager : MonoBehaviour
         _currencies[type].Add(value);
 
         // 다양한 이유로 여기에 규칙이 들어가기도한다.
-
+        
         _repository.Save(ToDtoList());
-
         OnDataChanged?.Invoke();
     }
 
@@ -104,5 +107,8 @@ public class CurrencyManager : MonoBehaviour
 
         return true;
     }
-
+    private void OnEnemyKilled(CurrencyEvent cvt)
+    {
+        Add(cvt.Currency, cvt.Amount);
+    }
 }

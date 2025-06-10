@@ -31,6 +31,11 @@ namespace Unity.FPS.AI
             evt.RemainingEnemyCount = enemiesRemainingNotification;
             EventManager.Broadcast(evt);
 
+            CurrencyEvent currencyEvent = Events.CurrencyEvent;
+            currencyEvent.Currency = enemyKilled.CurrencyType;
+            currencyEvent.Amount = enemyKilled.GoldValue;
+            EventManager.Broadcast(currencyEvent);
+            
             // removes the enemy from the list, so that we can keep track of how many are left on the map
             Enemies.Remove(enemyKilled);
         }

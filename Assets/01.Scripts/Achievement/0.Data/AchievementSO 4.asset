@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 258d249cfc116f64093b12f9eb816931, type: 3}
+  m_Name: AchievementSO 4
+  m_EditorClassIdentifier: 
+  _id: ACH_KILL_BOSS_001
+  _name: "\uBCF4\uC2A4 \uC800\uACA9\uC218"
+  _description: "\uBCF4\uC2A4 \uBAAC\uC2A4\uD130 1\uAE30 \uACA9\uCD94"
+  _condition: 3
+  _goalValue: 1
+  _rewardCurrencyType: 1
+  _rewardAmount: 3
