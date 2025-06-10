@@ -11,7 +11,7 @@ public class AchievementManager : Singleton<AchievementManager>
 
     private List<Achievement> _achievements;
     public List<Achievement> Achievements => _achievements;
-    public Action OnDataChnaged { get; set; }
+    public Action OnDataChanged { get; set; }
 
     private AchievementRepository _achievementRepository;
 
@@ -70,7 +70,7 @@ public class AchievementManager : Singleton<AchievementManager>
         }
 
         _achievementRepository.Save(ToDtoList());
-        OnDataChnaged?.Invoke();
+        OnDataChanged?.Invoke();
     }
 
     private void OnEnemyKilled(EnemyKillEvent evt)
@@ -108,7 +108,7 @@ public class AchievementManager : Singleton<AchievementManager>
             currencyEvent.Amount = achievement.RewardAmount;
             EventManager.Broadcast(currencyEvent);
 
-            OnDataChnaged?.Invoke();
+            OnDataChanged?.Invoke();
 
         }
     }

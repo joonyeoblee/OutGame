@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 258d249cfc116f64093b12f9eb816931, type: 3}
-  m_Name: AchievementSO 6
+  m_Name: AchievementSO 9
   m_EditorClassIdentifier: 
-  _id: ACH_HIDDEN_002
-  _name: "\uB208\uC370\uBBF8"
-  _description: "\uD2B9\uC815 \uC704\uCE58\uC758 \uC228\uACA8\uC9C4 \uC7A5\uC18C"
-  _condition: 4
-  _goalValue: 1
+  _id: ACH_TIME_001
+  _name: "\uC9C4\uB4DD\uD558\uAC8C"
+  _description: "\uD50C\uB808\uC774 \uB204\uC801 \uC2DC\uAC04 10\uBD84 \uB2EC\uC131"
+  _condition: 3
+  _goalValue: 10
   _rewardCurrencyType: 1
-  _rewardAmount: 10
+  _rewardAmount: 5

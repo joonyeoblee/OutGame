@@ -27,7 +27,7 @@ public class UI_Achievement : MonoBehaviour
 
         Refresh();
 
-        AchievementManager.Instance.OnDataChnaged += Refresh;
+        AchievementManager.Instance.OnDataChanged += Refresh;
     }
     private void Refresh()
     {
