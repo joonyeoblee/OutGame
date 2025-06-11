@@ -17,10 +17,21 @@ public class AttendanceReward
 
     public AttendanceReward(string id, int goalAttendanceDay, RewardState state, ECurrencyType rewardCurrencyType, int rewardAmount)
     {
+        
+        
         ID = id;
         GoalAttendanceDay = goalAttendanceDay;
         State = state;
         RewardCurrencyType = rewardCurrencyType;
         RewardAmount = rewardAmount;
     }
+}
+
+[System.Serializable]
+public class AttendanceRewardData
+{
+    public string ID;
+    public int GoalAttendanceDay;
+    public ECurrencyType RewardCurrencyType;
+    public int RewardAmount;
 }
