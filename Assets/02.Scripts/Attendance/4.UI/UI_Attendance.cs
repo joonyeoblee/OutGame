@@ -1,38 +1,26 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 public class UI_Attendance : MonoBehaviour
 {
+    [FormerlySerializedAs("AttendaceRewardButtons")]
     [SerializeField]
-    private UI_AttendanceReward[] AttendaceRewardButtons;
-    public Sprite[] Images;
-
+    private UI_AttendanceReward[] AttendaceReward;
+   
     private void Start()
     {
         AttendanceManager.Instance.OnDataChanged += Refresh;
-        Refresh();
     }
     public void Refresh()
     {
-        for (int i = 0; i < AttendanceManager.Instance.RewardData.Count; i++)
+        List<AttendanceRewardDTO> data = AttendanceManager.Instance.RewardData;
+        for (int i = 0; i < data.Count; i++)
         {
-            AttendaceRewardButtons[i].AttendanceText.text = AttendanceManager.Instance.RewardData[i].ID;
-            AttendaceRewardButtons[i].RewardImage.sprite = Images[(int)AttendanceManager.Instance.RewardData[i].RewardCurrencyType];
-            AttendaceRewardButtons[i].RewardText.text = AttendanceManager.Instance.RewardData[i].RewardAmount.ToString();
+            AttendaceReward[i].Refresh(data[i]);
         }
     }
 
-    public Sprite Get(string type)
-    {
-        switch (type)
-        {
-            case "Gold":
-                return Images[0];
-            case "Diamond":
-                return Images[1];
-            case "Ruby":
-                return Images[2];
-        }
-        return null;
-    }
+   
 
 
 }

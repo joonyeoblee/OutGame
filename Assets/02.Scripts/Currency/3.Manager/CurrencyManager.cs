@@ -45,7 +45,7 @@ public class CurrencyManager : MonoBehaviour
         // 레포지토리(깃허브)
         _repository = new CurrencyRepository();
 
-        List<CurrencyDTO> loadedCurrencies = _repository.Load(AccountManager.Instance.CurrentAccount.Email);
+        List<CurrencyDTO> loadedCurrencies = _repository.Load(AccountManager.Instance?.CurrentAccount.Email);
         if (loadedCurrencies == null)
         {
             for (int i = 0; i < (int)ECurrencyType.Count; ++i)
@@ -89,7 +89,7 @@ public class CurrencyManager : MonoBehaviour
 
         // 다양한 이유로 여기에 규칙이 들어가기도한다.
 
-        _repository.Save(ToDtoList(), AccountManager.Instance.CurrentAccount.Email);
+        _repository.Save(ToDtoList(), AccountManager.Instance?.CurrentAccount.Email);
         OnDataChanged?.Invoke();
     }
 

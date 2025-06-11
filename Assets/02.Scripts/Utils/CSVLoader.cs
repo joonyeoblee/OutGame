@@ -1,18 +1,18 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-
 public class CSVLoader : MonoBehaviour
 {
 
-    private List<AttendanceRewardData> _dataList;
+    private List<AttendanceRewardDTO> _dataList;
     private bool _isLoading = false;
     private bool _isLoaded = false;
 
-    public void Load( string addressableKey,System.Action onComplete = null )
+    public void Load(string addressableKey, Action onComplete = null)
     {
         if (_isLoaded || _isLoading)
         {
@@ -24,20 +24,20 @@ public class CSVLoader : MonoBehaviour
         _ = LoadInternalAsync(addressableKey,onComplete);
     }
 
-    public List<AttendanceRewardData> GetAll()
+    public List<AttendanceRewardDTO> GetAll()
     {
         if (!_isLoaded)
         {
             Debug.LogError("[AttendanceRewardRepository] Data not loaded yet.");
-            return new List<AttendanceRewardData>();
+            return new List<AttendanceRewardDTO>();
         }
 
         return _dataList;
     }
 
-    private async Task LoadInternalAsync( string addressableKey,System.Action onComplete)
+    private async Task LoadInternalAsync(string addressableKey, Action onComplete)
     {
-        var result = new List<AttendanceRewardData>();
+        List<AttendanceRewardDTO> result = new List<AttendanceRewardDTO>();
 
         var handle = Addressables.LoadAssetAsync<TextAsset>(addressableKey);
         await handle.Task;
@@ -68,15 +68,13 @@ public class CSVLoader : MonoBehaviour
                 string[] values = line.Split(',');
                 if (values.Length < 4) continue;
 
-                var data = new AttendanceRewardData
+                var data = new AttendanceRewardDTO
                 {
                     ID = values[0],
                     GoalAttendanceDay = int.Parse(values[1]),
                     RewardCurrencyType = EnumTryParse<ECurrencyType>(values[2], ECurrencyType.Gold),
-                    
-                    RewardAmount = int.Parse(values[3]),
+                    RewardAmount = int.Parse(values[3])
                 };
-                Debug.Log(data.RewardCurrencyType);
                 result.Add(data);
             }
         }
@@ -92,6 +90,6 @@ public class CSVLoader : MonoBehaviour
 
     private T EnumTryParse<T>(string value, T defaultValue) where T : struct
     {
-        return System.Enum.TryParse(value, out T result) ? result : defaultValue;
+        return Enum.TryParse(value, out T result) ? result : defaultValue;
     }
 }

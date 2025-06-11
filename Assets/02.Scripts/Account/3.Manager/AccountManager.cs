@@ -2,8 +2,8 @@ public class AccountManager : Singleton<AccountManager>
 {
     private Account _myAccount;
 
-    public AccountDTO CurrentAccount => _myAccount.ToDTO();
-
+    // public AccountDTO CurrentAccount => _myAccount.ToDTO();
+    public AccountDTO CurrentAccount;
     private const string SALT = "903872727";
 
     private readonly AccountRepository _repository = new AccountRepository();
